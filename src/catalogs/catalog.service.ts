@@ -17,6 +17,17 @@ export class CatalogService {
     private readonly clientRepository: Repository<Client>,
   ) { }
 
+  private setPrimaryFlagToFalse = async (clientId: number, vertical: CatalogVertical): Promise<void> => {
+    await this.catalogRepository
+      .createQueryBuilder()
+      .update(Catalog)
+      .set({ primary: false })
+      .where('clientId = :clientId', { clientId })
+      .andWhere('vertical = :vertical', { vertical })
+      .andWhere('primary = :primary', { primary: true })
+      .execute();
+  };
+
   async createCatalog(clientId: number, createDto: CreateCatalogDto): Promise<Catalog> {
     const client = await this.clientRepository.findOne({ where: { id: clientId } });
     if (!client) {
@@ -32,14 +43,7 @@ export class CatalogService {
     }
 
     if (createDto.primary) {
-      await this.catalogRepository
-        .createQueryBuilder()
-        .update(Catalog)
-        .set({ primary: false })
-        .where('clientId = :clientId', { clientId })
-        .andWhere('vertical = :vertical', { vertical: createDto.vertical })
-        .andWhere('primary = :primary', { primary: true })
-        .execute();
+      await this.setPrimaryFlagToFalse(clientId, createDto.vertical);
     }
 
     const catalog = this.catalogRepository.create({
@@ -76,15 +80,7 @@ export class CatalogService {
     }
 
     if (updateDto.primary && updateDto.primary === true) {
-      await this.catalogRepository
-        .createQueryBuilder()
-        .update(Catalog)
-        .set({ primary: false })
-        .where('clientId = :clientId', { clientId })
-        .andWhere('vertical = :vertical', { vertical: catalog.vertical })
-        .andWhere('primary = :primary', { primary: true })
-        .andWhere('id != :catalogId', { catalogId })
-        .execute();
+      await this.setPrimaryFlagToFalse(clientId, catalog.vertical);
     }
 
     // Merge the updated fields
