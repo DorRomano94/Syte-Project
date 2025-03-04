@@ -5,17 +5,8 @@ import { Catalog, CatalogVertical } from '../database/entities/catalog.entity';
 import { CreateCatalogDto } from './dto/create-catalog.dto';
 import { UpdateCatalogDto } from './dto/update-catalog.dto';
 import { Client } from '../database/entities/client.entity';
+import { CatalogResponse } from './interfaces/catalogResponse.interface';
 
-export interface CatalogResponse {
-  id: number;
-  name: string;
-  vertical: CatalogVertical;
-  primary: boolean;
-  locales: string[];
-  isMultiLocale: boolean;
-  createdAt: Date,
-  updatedAt: Date
-}
 
 @Injectable()
 export class CatalogService {
