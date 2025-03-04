@@ -61,6 +61,8 @@ npm install
 You need to copy the _env_example file and rename it to .env in the project root directory.
 This file will contain the environment variables necessary for the application, such as:
 ```
+PORT- The server port
+
 DATABASE_HOST – The database host
 DATABASE_PORT – The database port
 DATABASE_USER – The database username
