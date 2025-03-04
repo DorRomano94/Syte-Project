@@ -11,6 +11,7 @@
 │   │   │   ├── client.module.ts     # Client module definition
 │   │   │   ├── client.controller.ts # Handles HTTP requests for clients
 │   │   │   ├── client.service.ts    # Business logic for client operations
+│   │   │   ├── interfaces/          # Interfaces for client
 │   │   │   ├── dto/                 # Data Transfer Objects for clients
 │   │   │   ├── swagger/             # Swagger definitions for client endpoints
 │   │   │   └── __test__/                # Unit and integration tests for clients
@@ -19,6 +20,7 @@
 │   │   │   ├── catalog.module.ts     # Catalog module definition
 │   │   │   ├── catalog.controller.ts # Handles HTTP requests for catalogs
 │   │   │   ├── catalog.service.ts    # Business logic for catalog operations
+│   │   │   ├── interfaces/          # Interfaces for catalog
 │   │   │   ├── dto/                 # Data Transfer Objects for catalogs
 │   │   │   ├── swagger/             # Swagger definitions for catalog endpoints
 │   │   │   └── __test__/                # Unit and integration tests for catalogs
