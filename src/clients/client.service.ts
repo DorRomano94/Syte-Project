@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Client } from '../database/entities/client.entity';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { ClientResponse } from './interfaces/clientResponse.interface';
 
 @Injectable()
 export class ClientService {
@@ -12,16 +13,16 @@ export class ClientService {
     private readonly clientRepository: Repository<Client>,
   ) {}
 
-  async create(createClientDto: CreateClientDto): Promise<Client> {
+  async create(createClientDto: CreateClientDto): Promise<ClientResponse> {
     const client = this.clientRepository.create(createClientDto);
     return await this.clientRepository.save(client);
   }
 
-  async findAll(): Promise<Client[]> {
+  async findAll(): Promise<ClientResponse[]> {
     return await this.clientRepository.find();
   }
 
-  async findOne(id: number): Promise<Client> {
+  async findOne(id: number): Promise<ClientResponse> {
     const client = await this.clientRepository.findOne({ where: { id } });
     if (!client) {
       throw new NotFoundException(`Client with ID ${id} not found`);
@@ -29,7 +30,7 @@ export class ClientService {
     return client;
   }
 
-  async update(id: number, updateClientDto: UpdateClientDto): Promise<Client> {
+  async update(id: number, updateClientDto: UpdateClientDto): Promise<ClientResponse> {
     const client = await this.findOne(id);
     Object.assign(client, updateClientDto);
     return await this.clientRepository.save(client);
