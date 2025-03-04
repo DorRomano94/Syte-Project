@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    container_name: nestjs_app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+    networks:
+      - app_network
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - app_network
+      
+networks:
+  app_network:
+    driver: bridge
+    
+volumes:
+  mysql_data:
+    driver: local
+
